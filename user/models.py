@@ -9,3 +9,6 @@ class User(models.Model):
     birth_date = models.DateField()
     phone = models.CharField(max_length=11, unique=True, null=False, blank=False)
     balance = models.IntegerField()
+
+    def __str__(self):
+        return self.name
