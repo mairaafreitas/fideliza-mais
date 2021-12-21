@@ -1,3 +1,4 @@
+from django.core.validators import MinLengthValidator
 from django.db import models
 
 from user.validators import cpf_validator
@@ -18,7 +19,12 @@ class User(models.Model):
     )
     birth_date = models.DateField(verbose_name="Data de Nascimento")
     phone = models.CharField(
-        max_length=11, unique=True, null=False, blank=False, verbose_name="Celular"
+        max_length=11,
+        unique=True,
+        null=False,
+        blank=False,
+        validators=[MinLengthValidator(11)],
+        verbose_name="Celular",
     )
     balance = models.IntegerField(verbose_name="Pontuação", default=0)
 
