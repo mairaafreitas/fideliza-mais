@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Recommendation",
+            name="referral",
             fields=[
                 (
                     "id",
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("created_date", models.DateTimeField(auto_now_add=True)),
-                ("recommended_email", models.EmailField(max_length=254, unique=True)),
+                ("referred_email", models.EmailField(max_length=254, unique=True)),
                 ("has_accepted", models.BooleanField(default=False)),
                 (
                     "user",

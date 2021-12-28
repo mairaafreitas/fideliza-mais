@@ -8,33 +8,33 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("user", "0003_alter_user_balance_alter_user_birth_date_and_more"),
-        ("recommendation", "0001_initial"),
+        ("referral", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name="recommendation",
+            model_name="referral",
             name="created_date",
             field=models.DateTimeField(
                 auto_now_add=True, verbose_name="Data de criação"
             ),
         ),
         migrations.AlterField(
-            model_name="recommendation",
+            model_name="referral",
             name="has_accepted",
             field=models.BooleanField(
                 default=False, verbose_name="Aceitou a indicação?"
             ),
         ),
         migrations.AlterField(
-            model_name="recommendation",
-            name="recommended_email",
+            model_name="referral",
+            name="referred_email",
             field=models.EmailField(
                 max_length=254, unique=True, verbose_name="Email do Indicado"
             ),
         ),
         migrations.AlterField(
-            model_name="recommendation",
+            model_name="referral",
             name="user",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
