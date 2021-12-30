@@ -13,7 +13,7 @@ def send_email(referred_email, url):
     email["subject"] = "Você foi indicado!"
 
     email.set_content(
-        f"Parabéns , você foi indicado para o programa Fideliza Mais! \n\n Acesse o seu link {url} para se cadastrar e ganhar pontos!" 
+        f"Parabéns , você foi indicado para o programa Fideliza Mais! \n\n Acesse o seu link {url} para se cadastrar e ganhar pontos!"
     )
 
     with smtplib.SMTP(host="smtp.gmail.com", port=587) as smtp:
