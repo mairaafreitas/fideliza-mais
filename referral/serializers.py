@@ -9,4 +9,10 @@ class ReferralSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Referral
-        fields = ["user", "referred_email", "created_date", "has_accepted"]
+        fields = [
+            "id",
+            "user",
+            "referred_email",
+            "created_date",
+            "has_accepted",
+        ]  # noqa
