@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from referral.email.send_email import send_email
 from referral.models import Referral
 from referral.serializers import ReferralSerializer
+from user.serializers import UserSerializer
 
 
 class ReferralViewSet(viewsets.ModelViewSet):
@@ -54,3 +55,51 @@ def create_referral(request):
     send_email(referral_email, url)
 
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["POST"])
+def accept_referral(request):
+    referral = Referral.objects.get(
+        referred_email=request.data.get("referred_email")
+    )  # noqa
+    name = request.data.get("name")
+    document = request.data.get("document")
+    birth_date = request.data.get("birth_date")
+    phone = request.data.get("phone")
+
+    if not referral.is_active() or referral.has_accepted:
+        return Response(
+            "Essa indicação já foi aceita ou não está mais ativa",
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    accepted_serializar = UserSerializer(
+        data={
+            "name": name,
+            "document": document,
+            "email": referral.referred_email,
+            "birth_date": birth_date,
+            "phone": phone,
+        }
+    )
+    if not accepted_serializar.is_valid():
+        return Response(
+            "Erro ao aceitar a indicação", status=status.HTTP_400_BAD_REQUEST
+        )
+
+    referral.has_accepted = True
+    referral.user.balance += 10
+
+    accepted_serializar.save()
+    referral.user.save()
+    referral.save()
+
+    response = {
+        "email": referral.referred_email,
+        "name": name,
+        "document": document,
+        "phone": phone,
+        "birth_date": birth_date,
+    }
+
+    return Response(response, status=status.HTTP_201_CREATED)
