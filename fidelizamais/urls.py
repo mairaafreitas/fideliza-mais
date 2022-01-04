@@ -1,18 +1,11 @@
 from django.contrib import admin
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-from referral.views import (ReferralViewSet, accept_referral, create_referral,
-                            get_referrals, referral_detail)
-from user.views import UserViewSet, get_users, user_detail
-
-router = DefaultRouter()
-
-router.register(r"referral", ReferralViewSet)
-router.register(r"user", UserViewSet)
+from referral.views import (accept_referral, create_referral, get_referrals,
+                            referral_detail)
+from user.views import get_users, user_detail
 
 urlpatterns = [
-    path("", include(router.urls)),
     path("users/", get_users),
     path("user/<int:pk>", user_detail),
     path("referrals/", get_referrals),
