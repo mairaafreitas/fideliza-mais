@@ -17,24 +17,26 @@ Clone o repositório para criar uma cópia local no seu computador
 ## Inicialização
 1. Abra o diretório clonado no terminal
 
-1. O docker precisa preparar as imagens declaradas no repositório, criando os containers e inicializando-os,
+2. O docker precisa preparar as imagens declaradas no repositório, criando os containers e inicializando-os,
 para isso, utilize o comando:
 
-	``docker-compose up``
+	``make start``
 
 3. Para que a estrutura do banco de dados seja criada dentro do container, execute o comando:
 
-    ``docker-compose run web python manage.py migrate``
+ 	 ``make migrate``
 
 4. Crie o seu usuário para acessar o painel administrativo
 
-	``docker-compose run web python manage.py createsuperuser``
+	``make createsuperuser``
 
 5. Para verificar se está funcionando, acesse o painel administrativo
 
 	``localhost:8000/admin ``
 
+6. Para rodar os testes, execute o comando:
 
+	``make test``
 ## Documentação da API
 Para verificar todos os endpoints da API e seus possíveis erros, acesse:
 
