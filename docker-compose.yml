@@ -17,9 +17,10 @@ services:
       - .:/code
     ports:
       - '8000:8000'
+    environment:
+      DJANGO_SETTINGS_MODULE: fidelizamais.settings
     depends_on:
       - db
 
 volumes:
   mysql-db:
-  
