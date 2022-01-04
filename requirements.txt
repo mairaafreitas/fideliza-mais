@@ -5,3 +5,4 @@ python-dotenv==0.19.2
 pytest==6.2.5
 ipdb==0.13.9
 pytest-vcr==1.0.2
+freezegun==1.1.0
