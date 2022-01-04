@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -8,11 +8,6 @@ from referral.models import Referral
 from referral.serializers import ReferralSerializer
 from user.models import User
 from user.serializers import UserSerializer
-
-
-class ReferralViewSet(viewsets.ModelViewSet):
-    queryset = Referral.objects.all()
-    serializer_class = ReferralSerializer
 
 
 @api_view(["GET"])
