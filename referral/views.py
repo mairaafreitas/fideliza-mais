@@ -69,9 +69,16 @@ def create_referral(request):
 
 @api_view(["POST"])
 def accept_referral(request):
-    referral = Referral.objects.get(
+    referral = Referral.objects.filter(
         referred_email=request.data.get("referred_email")
-    )  # noqa
+    ).first()
+
+    if referral is None:
+        return Response(
+            "Esse email não foi indicado, verifique se você digitou corretamente",
+            status=status.HTTP_400_BAD_REQUEST,
+        )  # noqa
+
     name = request.data.get("name")
     document = request.data.get("document")
     birth_date = request.data.get("birth_date")
