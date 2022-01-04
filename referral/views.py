@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from referral.email.send_email import send_email
 from referral.models import Referral
 from referral.serializers import ReferralSerializer
+from user.models import User
 from user.serializers import UserSerializer
 
 
@@ -46,6 +47,15 @@ def create_referral(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
+    user = User.objects.filter(name=serializer.validated_data["user"]).first()
+    user_indicated_email = serializer.validated_data["referred_email"]
+
+    if user.email == user_indicated_email:
+        return Response(
+            "Não é possível indicar você mesmo",
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
     serializer.save()
 
     referral_id = serializer.data["id"]
@@ -59,9 +69,16 @@ def create_referral(request):
 
 @api_view(["POST"])
 def accept_referral(request):
-    referral = Referral.objects.get(
+    referral = Referral.objects.filter(
         referred_email=request.data.get("referred_email")
-    )  # noqa
+    ).first()
+
+    if referral is None:
+        return Response(
+            "Esse email não foi indicado, verifique se você digitou corretamente",
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
     name = request.data.get("name")
     document = request.data.get("document")
     birth_date = request.data.get("birth_date")
