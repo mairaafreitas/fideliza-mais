@@ -18,6 +18,6 @@ urlpatterns = [
     path("referrals/", get_referrals),
     path("referral/<int:pk>", referral_detail),
     path("create-referral/", create_referral, name="create_referral"),
-    path("accept-referral/", accept_referral),
+    path("accept-referral/", accept_referral, name="accept_referral"),
     path("admin/", admin.site.urls),
 ]

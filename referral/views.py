@@ -77,7 +77,7 @@ def accept_referral(request):
         return Response(
             "Esse email não foi indicado, verifique se você digitou corretamente",
             status=status.HTTP_400_BAD_REQUEST,
-        )  # noqa
+        )
 
     name = request.data.get("name")
     document = request.data.get("document")
