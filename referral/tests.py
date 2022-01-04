@@ -146,6 +146,31 @@ class AcceptReferralTests(TestCase):
         assert '"birth_date":"1998-10-10"' in str(response.content)
         assert '"phone":"13675432678"' in str(response.content)
 
+    def test_accept_referral_success_update_flag_and_balance(self):
+        Referral.objects.create(user=self.user, referred_email="jose@gmail.com")
+        payload = {
+            "referred_email": "jose@gmail.com",
+            "name": "Jose",
+            "document": "06093965015",
+            "birth_date": "1956-12-10",
+            "phone": "11975432678",
+        }
+        assert (User.objects.get(document=self.user.document)).balance == 0
+        assert (
+            Referral.objects.get(referred_email="jose@gmail.com")
+        ).has_accepted is False
+
+        self.client.post(
+            reverse("accept_referral"),
+            data=json.dumps(payload),
+            content_type="application/json",
+        )
+
+        assert (User.objects.get(document=self.user.document)).balance == 10
+        assert (
+            Referral.objects.get(referred_email="jose@gmail.com")
+        ).has_accepted is True
+
     def test_accept_referral_invalid_data(self):
         payload = {
             "referred_email": "geovana@gmail.com",
